@@ -1,11 +1,13 @@
-with wordcount AS (
-      select regexp_substr(string, '[^ ]+', 1, 1) as word, string, 1 as n
+with RECURSIVE words as (
+      select regexp_substr(title, '[^ ]+', 1, 1) as word, title, 1 as n
       from `circulation2023.top_food`
       union all
-      select regexp_substr(string, '[^ ]+', 1, n + 1), string, n + 1
-      from wordcount
-      where regexp_substr(string, '[^ ]+', 1, n + 1) is not null
+      select regexp_substr(title, '[^ ]+', 1, n + 1), title, n + 1
+      from words
+      where regexp_substr(title, '[^ ]+', 1, n + 1) is not null
      )
 select word, count(*)
-from wordcount
+from words
 group by word;
+
+-- RECURSIVE tag necessary in BigQuery to perform recursive CTE functions
