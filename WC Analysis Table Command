@@ -1,0 +1,7 @@
+SELECT CallNumber, REGEXP_REPLACE(Title, '[^a-zA-Z0-9]', ' ') AS Title, TotalLifetimeCirc, TotalYTDCirc
+FROM `skilled-nation-381416.circulation2023.nonfiction_circ`
+WHERE Classification = [Classification Tag]
+ORDER BY TotalLifetimeCirc DESC
+LIMIT 100
+
+-- This returns the top 100 items in the top categories with non-alphanumeric characters removed from the titles for easier analysis of word counts.
