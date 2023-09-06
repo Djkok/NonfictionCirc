@@ -1,0 +1,11 @@
+with wordcount AS (
+      select regexp_substr(string, '[^ ]+', 1, 1) as word, string, 1 as n
+      from `circulation2023.top_food`
+      union all
+      select regexp_substr(string, '[^ ]+', 1, n + 1), string, n + 1
+      from wordcount
+      where regexp_substr(string, '[^ ]+', 1, n + 1) is not null
+     )
+select word, count(*)
+from wordcount
+group by word;
